@@ -28,73 +28,15 @@
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
-</script><script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyAunxEBRkPfNI54k2-9WW8kJyg0uk3TgPE",
-    authDomain: "metagame-qa.firebaseapp.com",
-    projectId: "metagame-qa",
-    storageBucket: "metagame-qa.appspot.com",
-    messagingSenderId: "658812230508",
-    appId: "1:658812230508:web:26aa5e944bcf7b88d9f149",
-    measurementId: "G-BGFYS6WHTT"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script><script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyAunxEBRkPfNI54k2-9WW8kJyg0uk3TgPE",
-    authDomain: "metagame-qa.firebaseapp.com",
-    projectId: "metagame-qa",
-    storageBucket: "metagame-qa.appspot.com",
-    messagingSenderId: "658812230508",
-    appId: "1:658812230508:web:26aa5e944bcf7b88d9f149",
-    measurementId: "G-BGFYS6WHTT"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
 </script></head>
   <body>
     <div id="unity-container" class="unity-desktop">
-      <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
-      <div id="unity-loading-bar">
-        <div id="unity-logo"></div>
-        <div id="unity-progress-bar-empty">
-          <div id="unity-progress-bar-full"></div>
-        </div>
-      </div>
-      <div id="unity-warning"> </div>
-      <div id="unity-footer">
-        <div id="unity-webgl-logo"></div>
-        <div id="unity-fullscreen-button"></div>
-        <div id="unity-build-title">Metagame</div>
-      </div>
+      <canvas id="unity-canvas" width=1920 height=1080></canvas>
     </div>
     <script>
-
       var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
-      var loadingBar = document.querySelector("#unity-loading-bar");
-      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      //var loadingBar = document.querySelector("#unity-loading-bar");
       var fullscreenButton = document.querySelector("#unity-fullscreen-button");
       var warningBanner = document.querySelector("#unity-warning");
 
@@ -135,7 +77,7 @@
         showBanner: unityShowBanner,
       };
 
-      // By default, Unity keeps WebGL canvas render target size matched with
+      // By default Unity keeps WebGL canvas render target size matched with
       // the DOM size of the canvas element (scaled by window.devicePixelRatio)
       // Set this to false if you want to decouple this synchronization from
       // happening inside the engine, and you would instead like to size up
@@ -155,34 +97,40 @@
         // To lower canvas resolution on mobile devices to gain some
         // performance, uncomment the following line:
         // config.devicePixelRatio = 1;
-
-
       } else {
         // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
 
-        canvas.style.width = "960px";
-        canvas.style.height = "600px";
+          WindowSize();
       }
+        function WindowSize() {
+            var scaleW = Math.min(1, window.innerWidth / 1920);
+        var scaleH = Math.min(1, window.innerHeight / 1080);
+            var scale = Math.min(scaleH, scaleW);
+        var fitW = scale * 1920;
+        var fitH = scale * 1080;
 
-      loadingBar.style.display = "block";
+            canvas.style.width = fitW.toString() + "px";
+            canvas.style.height = fitH.toString() + "px";
+
+        }
+        window.onresize = function () {
+            WindowSize();
+        }
+
+      //loadingBar.style.display = "block";
 
       var script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
-          progressBarFull.style.width = 100 * progress + "%";
-              }).then((unityInstance) => {
-                loadingBar.style.display = "none";
-                fullscreenButton.onclick = () => {
-                  unityInstance.SetFullscreen(1);
-                };
-              }).catch((message) => {
-                alert(message);
-              });
-            };
-
+          //progressBarFull.style.width = 100 * progress + "%";
+        }).then((unityInstance) => {
+          //loadingBar.style.display = "none";
+        }).catch((message) => {
+          alert(message);
+        });
+      };
       document.body.appendChild(script);
-
     </script>
   </body>
 </html>
